@@ -1,0 +1,10 @@
+<div class="container">
+    <ng-container *ngFor="let block of textBlocks">
+      <!--   <blockquote contenteditable="true" (blur)="onblur()">{{block.text}}
+        </blockquote> -->
+        <input (input)="onInput($event)" type="text" [size]="size"/>
+        <span contenteditable="false" class="placeholder">{{block.placeholder}}</span>
+    </ng-container>
+    <input (input)="onInput($event)" type="text" [size]="size"/>
+    <!-- <blockquote class="last" contenteditable="true"></blockquote> -->
+</div>

@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    height: 100px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+    blockquote {
+        width: 100px;
+        min-width: 4px;
+        width: fit-content;
+        margin: 0 4px;
+
+        &[contenteditable] {
+            outline: 0px solid transparent;
+        }
+        &.last{
+            width: 100%;
+            height:max-content;
+        }
+    }
+
+    in
+    .placeholder {
+        background-color: rgb(53, 95, 172);
+        border-radius: 4px;
+        padding: 2px 4px 3px;
+        display: inline;      
+        color: #fff;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+}
