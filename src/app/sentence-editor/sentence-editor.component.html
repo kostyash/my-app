@@ -1,10 +1,6 @@
 <div class="container">
-    <ng-container *ngFor="let block of textBlocks">
-      <!--   <blockquote contenteditable="true" (blur)="onblur()">{{block.text}}
-        </blockquote> -->
-        <input class="text" type="text" inputWidth/>
-        <span contenteditable="false" class="placeholder">{{block.placeholder}}</span>
-    </ng-container>
-    <input class="text" type="text" inputWidth/>
-    <!-- <blockquote class="last" contenteditable="true"></blockquote> -->
+  <ng-container *ngFor="let block of textBlocks;index as i;trackBy: trackByIndex">
+    <input #input [value]="block.text" #text (keydown)="setCurrent(i, text)" (click)="setCurrent(i, text)" class="text" type="text" inputWidth />
+    <span *ngIf="block.placeholder" class="placeholder">{{block.placeholder}}</span>
+  </ng-container> 
 </div>

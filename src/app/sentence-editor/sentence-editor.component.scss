@@ -6,17 +6,13 @@
     height: 100px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
-    blockquote {
-        width: 100px;
-        min-width: 4px;
-        width: fit-content;
-        margin: 0 4px;
-
-    }
+   
     .text{
         border: 0 none;
         outline: none;
         width: 7px;
+        font-size: 14px;
+         font-family: 'Lucida Sans'
     }
  
     .placeholder {
@@ -27,5 +23,11 @@
         color: #fff;
         font-size: 12px;
         white-space: nowrap;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+    .pseudo{
+        position: absolute;
+        left: -500px;
     }
 }

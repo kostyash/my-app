@@ -1,2 +1,3 @@
-<app-sentence-editor [textBlocks]="textBlocks"></app-sentence-editor>
-<app-badge [title]="'Company Name'" (onSelect)="onBadgeSelect($event)"></app-badge>
+<app-sentence-editor (currentInputChange)="setCurrentInput($event)" [textBlocks]="textBlocks"></app-sentence-editor>
+<app-placeholders-list (placeholderSelected)="onPlaceholderSelected($event)" [placeholders]="placeholders"></app-placeholders-list>
+
