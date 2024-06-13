@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren, viewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges, ViewChildren, viewChild } from '@angular/core';
 import { TextBlock, TextInput } from './contracts';
 import { NgFor, NgIf } from '@angular/common';
 import { InputWidthDirective } from '../input-width.directive';
@@ -9,7 +9,8 @@ import { InputWidthDirective } from '../input-width.directive';
   standalone: true,
   imports: [NgFor, InputWidthDirective, NgIf],
   templateUrl: './sentence-editor.component.html',
-  styleUrl: './sentence-editor.component.scss'
+  styleUrl: './sentence-editor.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SentenceEditorComponent implements AfterViewInit, OnChanges {
 
@@ -27,15 +28,15 @@ export class SentenceEditorComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['textBlocks'].firstChange)
-      this.setFocus();
+    if (!changes['textBlocks'].firstChange) {
+       this.setFocus();
+    }
   }
 
 
   ngAfterViewInit(): void {
     this.setFocus();
-  }
-
+  }  
 
   setCurrent(currentInputIndex: number, input: HTMLInputElement) {
     this.currentInputIndex = currentInputIndex;
@@ -50,8 +51,8 @@ export class SentenceEditorComponent implements AfterViewInit, OnChanges {
   private setFocus() {
     const focusedElementIndex = this.textBlocks.findIndex(block => block.hasFocus);
     const focusedElement = focusedElementIndex === -1 ? this.inputs.first.nativeElement : this.inputs.filter((input, index) => index === focusedElementIndex)[0].nativeElement;
-    focusedElement.focus();    
-    setTimeout(() => focusedElement.setSelectionRange(0,0));
+    focusedElement.focus();
+    setTimeout(() => focusedElement.setSelectionRange(0, 0));
   }
 
 }
