@@ -22,6 +22,7 @@ export class SentenceEditorComponent {
   @Input() textBlocks!: TextBlock[];
   @Output() currentInputChange = new EventEmitter<TextInput>();
   @Output() keyDownChange = new EventEmitter<string>();
+  @Output() keyUpChange = new EventEmitter<void>();
 
   trackByIndex(index: number, textBlock: TextBlock) {
     return index;
@@ -40,5 +41,7 @@ export class SentenceEditorComponent {
     this.keyDownChange.emit(value);
   }
 
-
+  onKeyUp(value: string) {
+    this.keyUpChange.emit();
+  }
 }

@@ -1,17 +1,45 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
 import { PlaceholdersListComponent } from '../placeholders-list/placeholders-list.component';
 import { SentenceEditorComponent } from '../sentence-editor/SentenceEditorComponent';
 import { TextBlock, TextInput } from '../sentence-editor/contracts';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Block } from '@angular/compiler';
 
 @Component({
   selector: 'app-open-sentence',
   standalone: true,
   templateUrl: './open-sentence.component.html',
   styleUrl: './open-sentence.component.scss',
-  imports: [PlaceholdersListComponent, SentenceEditorComponent]
+  imports: [PlaceholdersListComponent, SentenceEditorComponent],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => OpenSentenceComponent),
+      multi: true
+    }
+  ]
 })
-export class OpenSentenceComponent implements OnChanges {
+export class OpenSentenceComponent implements OnChanges, ControlValueAccessor {
 
+  // region control value accessor
+
+  onChange: any = () => { };
+  onTouch: any = () => { };
+
+  writeValue(initialText: string): void {
+    this.buildTextBlocks(initialText || '');
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+  setDisabledState?(isDisabled: boolean): void {
+
+  }
+
+  // endregion
 
   textBlocks: TextBlock[] = [{
     text: '',
@@ -24,6 +52,9 @@ export class OpenSentenceComponent implements OnChanges {
   @Input() initialText = '';
 
 
+  finalPlaceholders = this.placeholders;
+
+
   currentInput: TextInput = {
     caretPosition: 0,
     index: this.textBlocks?.length - 1,
@@ -32,14 +63,7 @@ export class OpenSentenceComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['initialText']) {
-      if (!this.initialText) {
-        this.textBlocks = [{
-          text: '',
-          placeholder: null
-        }]
-      } else {
-        this.buildTextBlocks();
-      }
+      this.buildTextBlocks(this.initialText || '');
     }
     this.currentInput = {
       caretPosition: this.textBlocks[this.textBlocks.length - 1].text.length,
@@ -50,6 +74,7 @@ export class OpenSentenceComponent implements OnChanges {
 
   onPlaceholderSelected(placeholder: string) {
     this.addPlaceholder(placeholder);
+    this.onChange(this.convertTextBlocksToString());
   }
 
   onKeyDown(key: string) {
@@ -61,14 +86,19 @@ export class OpenSentenceComponent implements OnChanges {
     }
   }
 
+  onKeyUp(){
+    this.onChange(this.convertTextBlocksToString());
+  }
+
   setCurrentInput(currentInput: TextInput) {
     this.currentInput = currentInput;
-    this.textBlocks[this.currentInput.index].text = this.currentInput.value;
+    this.textBlocks[this.currentInput.index].text = this.currentInput.value;    
   }
 
   // Private Methods
 
-  private buildTextBlocks() {
+  private buildTextBlocks(initialText: string = "") {
+    const placeholders = [...this.placeholders];
     this.textBlocks = [];
     const textBlock: TextBlock = {
       placeholder: '',
@@ -77,7 +107,7 @@ export class OpenSentenceComponent implements OnChanges {
     let currentText = '';
     let currentPlaceholder = '';
     let buildingText = true;
-    Array.from(this.initialText).forEach((char, ind) => {
+    Array.from(initialText).forEach((char, ind) => {
       if (char !== '[' && buildingText) {
         currentText += char;
         return;
@@ -96,15 +126,16 @@ export class OpenSentenceComponent implements OnChanges {
           text: currentText,
           placeholder: currentPlaceholder
         })
+        placeholders.push(currentPlaceholder);
         currentText = '';
         currentPlaceholder = '';
       }
     });
     this.textBlocks.push({
       text: currentText + currentPlaceholder,
-      placeholder: null,
-      hasFocus: true
+      placeholder: null
     })
+    this.finalPlaceholders = placeholders;
     console.log('textBlocks', this.textBlocks);
   }
 
@@ -145,6 +176,18 @@ export class OpenSentenceComponent implements OnChanges {
     this.textBlocks[index - 1].caretPosition = this.textBlocks[index - 1].text.length;
     this.textBlocks[index - 1].text = this.textBlocks[index - 1].text + this.textBlocks[index].text;
     this.textBlocks = [...this.textBlocks.slice(0, index), ... this.textBlocks.slice(index + 1)];
+  }
+
+  private convertTextBlocksToString(): string {
+    let sentence = '';
+
+    this.textBlocks.forEach(block => {
+      sentence += block.text;
+      if (block.placeholder) {
+        sentence += '[' + block.placeholder + ']';
+      }
+    })
+    return sentence;
   }
 
 }

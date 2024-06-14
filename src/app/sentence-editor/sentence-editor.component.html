@@ -1,7 +1,7 @@
 <div class="container">
   <ng-container *ngFor="let block of textBlocks;index as i;trackBy: trackByIndex">
     <input [appInputFocus]="block.hasFocus" [caretPosition]="block.caretPosition ?? 0" #input [value]="block.text" #text
-      (keydown)="onKeyDown($event.key)" (click)="setCurrent(i, text)" (input)="setCurrent(i, text)" class="text" type="text" inputWidth />
+    (keyup)="onKeyUp($event.key)"  (keydown)="onKeyDown($event.key)" (click)="setCurrent(i, text)" (input)="setCurrent(i, text)" class="text" type="text" inputWidth />
     <span *ngIf="block.placeholder" class="placeholder">{{block.placeholder}}</span>
   </ng-container>
 </div>

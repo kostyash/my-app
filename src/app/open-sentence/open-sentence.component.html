@@ -1,7 +1,7 @@
 <div class="container">
-    <app-sentence-editor (keyDownChange)="onKeyDown($event)" (currentInputChange)="setCurrentInput($event)"
+    <app-sentence-editor (keyUpChange)="onKeyUp()" (keyDownChange)="onKeyDown($event)" (currentInputChange)="setCurrentInput($event)"
         [textBlocks]="textBlocks"></app-sentence-editor>
     <div class="separator"></div>
     <app-placeholders-list (placeholderSelected)="onPlaceholderSelected($event)"
-        [placeholders]="placeholders"></app-placeholders-list>
+        [placeholders]="finalPlaceholders"></app-placeholders-list>
 </div>
