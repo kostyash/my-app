@@ -1,0 +1,17 @@
+.container{
+    height: 118px;
+    border: 1px solid #dcdbdd;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .separator{
+        height: 1px;
+        border: 0 none;
+        background-color: #dcdbdd;        
+    }
+    app-sentence-editor{
+        flex: 0 1 60%;
+    }
+}

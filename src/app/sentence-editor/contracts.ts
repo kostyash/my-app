@@ -3,11 +3,12 @@ export interface TextBlock {
     text: string;
     placeholder: string | null;
     hasFocus?: boolean;
+    caretPosition?: number;
 }
 
 export interface TextInput {
     value: string;
-    cursorPosition: number;
+    caretPosition: number;
     index: number;
     keyPressed?: string;
 }

@@ -25,7 +25,7 @@ export class OpenSentenceComponent implements OnChanges {
 
 
   currentInput: TextInput = {
-    cursorPosition: 0,
+    caretPosition: 0,
     index: this.textBlocks?.length - 1,
     value: ''
   };
@@ -42,7 +42,7 @@ export class OpenSentenceComponent implements OnChanges {
       }
     }
     this.currentInput = {
-      cursorPosition: this.textBlocks[this.textBlocks.length - 1].text.length,
+      caretPosition: this.textBlocks[this.textBlocks.length - 1].text.length,
       index: this.textBlocks.length - 1,
       value: this.textBlocks[this.textBlocks.length - 1].text
     };
@@ -52,15 +52,18 @@ export class OpenSentenceComponent implements OnChanges {
     this.addPlaceholder(placeholder);
   }
 
+  onKeyDown(key: string) {
+    if (key === 'Delete' && this.currentInput.caretPosition === this.currentInput.value.length && this.currentInput.index < this.textBlocks?.length - 1) {
+      this.removePlaceholderByDelete(this.currentInput.index)
+    }
+    if (key === 'Backspace' && this.currentInput.caretPosition === 0 && this.currentInput.index > 0) {
+      this.removePlaceholderByBackspace(this.currentInput.index)
+    }
+  }
+
   setCurrentInput(currentInput: TextInput) {
     this.currentInput = currentInput;
-    
-    if (currentInput.keyPressed === 'Delete' && currentInput.cursorPosition === currentInput.value.length && currentInput.index < this.textBlocks?.length - 1) {
-      this.removePlaceholder(currentInput.index)
-    }
-    if (currentInput.keyPressed === 'BackSpace' && currentInput.index > 0) {
-      this.removePlaceholder(currentInput.index - 1)
-    }
+    this.textBlocks[this.currentInput.index].text = this.currentInput.value;
   }
 
   // Private Methods
@@ -106,8 +109,8 @@ export class OpenSentenceComponent implements OnChanges {
   }
 
   private addPlaceholder(placeholder: string) {
-    const leftText = this.currentInput.value.slice(0, this.currentInput.cursorPosition) || '';
-    const rightText = this.currentInput.value.slice(this.currentInput.cursorPosition, this.currentInput.value.length) || '';
+    const leftText = this.currentInput.value.slice(0, this.currentInput.caretPosition) || '';
+    const rightText = this.currentInput.value.slice(this.currentInput.caretPosition, this.currentInput.value.length) || '';
 
     this.textBlocks.forEach(block => block.hasFocus = false);
 
@@ -122,16 +125,26 @@ export class OpenSentenceComponent implements OnChanges {
     this.textBlocks = [...this.textBlocks.slice(0, this.currentInput.index), newTextBlock, ... this.textBlocks.slice(this.currentInput.index)];
 
     this.currentInput = {
-      cursorPosition: 0,
+      caretPosition: 0,
       index: this.currentInput.index + 1,
       value: rightText
     };
   }
 
-  private removePlaceholder(index: number) {
+  private removePlaceholderByDelete(index: number) {
     this.textBlocks.forEach(block => block.hasFocus = false);
     this.textBlocks[index + 1].text = this.textBlocks[index].text + this.textBlocks[index + 1].text;
     this.textBlocks[index + 1].hasFocus = true;
+    this.textBlocks[index + 1].caretPosition = this.currentInput.value.length;
     this.textBlocks = [...this.textBlocks.slice(0, index), ... this.textBlocks.slice(index + 1)];
   }
+
+  private removePlaceholderByBackspace(index: number) {
+    this.textBlocks.forEach(block => block.hasFocus = false);
+    this.textBlocks[index - 1].hasFocus = true;
+    this.textBlocks[index - 1].caretPosition = this.textBlocks[index - 1].text.length;
+    this.textBlocks[index - 1].text = this.textBlocks[index - 1].text + this.textBlocks[index].text;
+    this.textBlocks = [...this.textBlocks.slice(0, index), ... this.textBlocks.slice(index + 1)];
+  }
+
 }

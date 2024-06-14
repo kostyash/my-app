@@ -2,9 +2,8 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    flex-wrap: wrap;
-    height: 100px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    flex-wrap: wrap;   
+    font-family: 'Rubic', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
    
     .text{
@@ -28,6 +27,6 @@
     }
     .pseudo{
         position: absolute;
-        left: -500px;
+        left: -5000px;
     }
 }

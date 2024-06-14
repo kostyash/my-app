@@ -7,6 +7,8 @@ import { Directive, ElementRef, Input, OnChanges, SimpleChanges } from '@angular
 export class InputFocusDirective implements OnChanges {
 
   @Input() appInputFocus: boolean | undefined;
+  @Input() caretPosition = 0;
+
 
   constructor(private el: ElementRef) {
   }  
@@ -18,7 +20,7 @@ export class InputFocusDirective implements OnChanges {
   private setFocus() {
     if(this.appInputFocus){
       this.el.nativeElement.focus();
-      this.el.nativeElement.setSelectionRange(0, 0);  
+      this.el.nativeElement.setSelectionRange(this.caretPosition, this.caretPosition);  
     }    
   }
 }

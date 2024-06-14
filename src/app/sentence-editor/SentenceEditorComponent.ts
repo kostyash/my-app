@@ -20,20 +20,25 @@ export class SentenceEditorComponent {
 
 
   @Input() textBlocks!: TextBlock[];
-  @Output() currentInputChange = new EventEmitter<TextInput>();  
+  @Output() currentInputChange = new EventEmitter<TextInput>();
+  @Output() keyDownChange = new EventEmitter<string>();
 
   trackByIndex(index: number, textBlock: TextBlock) {
     return index;
-  }  
+  }
 
-  setCurrent(currentInputIndex: number, input: HTMLInputElement, key?: string) {
+  setCurrent(currentInputIndex: number, input: HTMLInputElement) {
     this.currentInputIndex = currentInputIndex;
     this.currentInputChange.emit({
-      cursorPosition: input.selectionStart ?? 0,
+      caretPosition: input.selectionStart ?? 0,
       value: input.value,
-      index: currentInputIndex,
-      keyPressed: key
-    });  
+      index: currentInputIndex    
+    });
   }
+
+  onKeyDown(value: string) {
+    this.keyDownChange.emit(value);
+  }
+
 
 }
