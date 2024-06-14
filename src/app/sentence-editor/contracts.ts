@@ -9,4 +9,5 @@ export interface TextInput {
     value: string;
     cursorPosition: number;
     index: number;
+    keyPressed?: string;
 }

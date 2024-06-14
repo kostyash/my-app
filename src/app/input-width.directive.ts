@@ -4,10 +4,10 @@ import { AfterViewChecked, Directive, ElementRef, OnDestroy, OnInit, Renderer2 }
   selector: '[inputWidth]',
   standalone: true
 })
-export class InputWidthDirective implements OnInit, AfterViewChecked {
+export class InputWidthDirective implements OnInit, AfterViewChecked, OnDestroy {
 
   constructor(private el: ElementRef, private renderer: Renderer2) {
-  }
+  }  
 
   private span!: HTMLSpanElement;
 
@@ -24,6 +24,10 @@ export class InputWidthDirective implements OnInit, AfterViewChecked {
   ngAfterViewChecked(): void {
     this.span.innerHTML = this.el.nativeElement.value;
     this.setWidth();
+  }
+
+  ngOnDestroy(): void {
+    this.span.parentNode?.removeChild(this.span);
   }
 
   private setWidth() {

@@ -1,6 +1,6 @@
 <div class="container">
   <ng-container *ngFor="let block of textBlocks;index as i;trackBy: trackByIndex">
-    <input #input [value]="block.text" #text (keydown)="setCurrent(i, text)" (click)="setCurrent(i, text)" class="text" type="text" inputWidth />
+    <input [appInputFocus]="block.hasFocus" #input [value]="block.text" #text (keydown)="setCurrent(i, text, $event.key)" (click)="setCurrent(i, text)" class="text" type="text" inputWidth />
     <span *ngIf="block.placeholder" class="placeholder">{{block.placeholder}}</span>
   </ng-container> 
 </div>
