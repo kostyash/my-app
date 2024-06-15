@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SentenceEditorComponent } from './sentence-editor.component';
+import { SentenceFormComponent } from './sentence-form.component';
 
-describe('SentenceEditorComponent', () => {
-  let component: SentenceEditorComponent;
-  let fixture: ComponentFixture<SentenceEditorComponent>;
+describe('SentenceFormComponent', () => {
+  let component: SentenceFormComponent;
+  let fixture: ComponentFixture<SentenceFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SentenceEditorComponent]
+      imports: [SentenceFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SentenceEditorComponent);
+    fixture = TestBed.createComponent(SentenceFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,19 @@
+<form class="sentence-form" [formGroup]="sentenceForm" (ngSubmit)="onSubmit()">
+    <section class="sentence-form-section">
+        <label class="sentence-form-label" for="someName">Name: </label>
+        <input id="someName" name="someName" type="text" formControlName="name">
+    </section>
+    <section class="sentence-form-section">
+        <label class="sentence-form-label" for="somePhone">Last Name: </label>
+        <input id="somePhone" name="somePhone" type="text" formControlName="phone">
+
+    </section>
+    <section class="sentence-form-section">
+        <label class="sentence-form-label" for="sentence">Opening Sentence: </label>
+        <app-open-sentence id="sentence" name="sentence" [placeholders]="['Company Name', 'Agent Name']"
+            formControlName="openSentence"></app-open-sentence>
+
+    </section>
+
+    <button class="submit-sentence" type="submit">Submit</button>
+</form>

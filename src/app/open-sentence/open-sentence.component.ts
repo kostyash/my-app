@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
 import { PlaceholdersListComponent } from '../placeholders-list/placeholders-list.component';
-import { SentenceEditorComponent } from '../sentence-editor/SentenceEditorComponent';
+import { SentenceEditorComponent } from '../sentence-editor/sentence-editor.component';
 import { TextBlock, TextInput } from '../sentence-editor/contracts';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Block } from '@angular/compiler';
@@ -70,6 +70,7 @@ export class OpenSentenceComponent implements OnChanges, ControlValueAccessor {
       index: this.textBlocks.length - 1,
       value: this.textBlocks[this.textBlocks.length - 1].text
     };
+    this.onChange(this.convertTextBlocksToString());
   }
 
   onPlaceholderSelected(placeholder: string) {
@@ -92,7 +93,7 @@ export class OpenSentenceComponent implements OnChanges, ControlValueAccessor {
 
   setCurrentInput(currentInput: TextInput) {
     this.currentInput = currentInput;
-    this.textBlocks[this.currentInput.index].text = this.currentInput.value;    
+    this.textBlocks[this.currentInput.index].text = this.currentInput.value;      
   }
 
   // Private Methods
