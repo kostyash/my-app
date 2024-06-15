@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OpenSentenceComponent } from '../open-sentence/open-sentence.component';
 
@@ -13,6 +13,8 @@ export class SentenceFormComponent implements OnInit {
 
   sentenceForm!: FormGroup;
 
+  @Output() onSentenceSubmit = new EventEmitter<string>();
+
   ngOnInit(): void {
     this.sentenceForm = new FormGroup({
       name: new FormControl(''),
@@ -22,7 +24,7 @@ export class SentenceFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.sentenceForm.value);
+    this.onSentenceSubmit.emit(this.sentenceForm.value);
   }
 
 }

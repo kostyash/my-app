@@ -1,9 +1,4 @@
-
-
-
-<main class="main"> 
-   <app-sentence-form></app-sentence-form>
+<main class="main">
+   <app-sentence-form (onSentenceSubmit)="onSentenceSubmit($event)"></app-sentence-form>
+   <div>{{sentenceFormValue | json}}</div>
 </main>
-
-
-
