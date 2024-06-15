@@ -18,8 +18,7 @@ export class SentenceFormComponent implements OnInit {
       name: new FormControl(''),
       phone: new FormControl(''),
       openSentence: new FormControl('vsdf [bbcv]fg f dg[hfghfghf]')
-    });
-    this.sentenceForm.get('openSentence')?.valueChanges.subscribe(console.log);
+    });    
   }
 
   onSubmit() {
