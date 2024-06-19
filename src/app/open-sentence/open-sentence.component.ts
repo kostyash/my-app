@@ -132,7 +132,7 @@ export class OpenSentenceComponent implements OnChanges, ControlValueAccessor {
       }
     });
     this.textBlocks.push({
-      text: currentText + currentPlaceholder,
+      text: currentPlaceholder ? currentText + '[' + currentPlaceholder : currentText,
       placeholder: null
     })
     this.finalPlaceholders = placeholders;
